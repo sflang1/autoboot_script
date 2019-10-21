@@ -36,7 +36,11 @@ cd ~/.nodenv && src/configure && make -C src
 echo "# Rbenv configuration" >> ~/.zshrc
 echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(nodenv init -)"' >> ~/.zshrc
+# Add nodenv binaries
+echo "[[ \$(nodenv version) =~ '([[:digit:]]+\.)+[[:digit:]]+' ]]; export current_version=\$MATCH" >> ~/.zshrc
+echo 'export PATH="$HOME/.nodenv/versions/$current_version/bin:$PATH"' >> ~/.zshrc
 # Nodenv build
+mkdir -p "$(nodenv root)"/plugins
 git clone https://github.com/nodenv/node-build.git $(nodenv root)/plugins/node-build
 
 # Install pgvm
