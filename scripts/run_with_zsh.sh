@@ -9,7 +9,7 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 # Find the line number of the plugins line
 export line_number=$(grep -nr "plugins=(git" ~/.zshrc | cut -d : -f 1)
 # Replace this line.
-sed -i "$(echo $line_number)s/.*/plugins=(git bundler colorized brew fasd zeus gem rails ruby npm node nano nanoc history-substring-search zsh-syntax-highlighting)/" ~/.zshrc
+sed -i "$(echo $line_number)s/.*/plugins=(git bundler brew fasd zeus gem rails ruby npm node nanoc history-substring-search zsh-syntax-highlighting)/" ~/.zshrc
 
 # Fasd configuration
 echo 'eval "$(fasd --init auto)"' >> ~/.zshrc

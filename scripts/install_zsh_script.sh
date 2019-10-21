@@ -5,15 +5,15 @@
 sudo apt-get update
 sudo apt-get -y install aptitude
 
-sudo apt-get -y install build-essential curl wget openssl libssl-dev
+sudo apt-get -y install build-essential curl wget openssl libssl-dev software-properties-common
 
 sudo aptitude -y install python-software-properties
 
 # Java Development Kit
-sudo add-apt-repository ppa:webupd8team/java
+sudo add-apt-repository ppa:linuxuprising/java
 sudo aptitude update
 
-sudo aptitude -y install oracle-java8-installer
+sudo aptitude -y install oracle-java11-installer
 
 # Installing and configuring git
 sudo aptitude -y install git
@@ -30,7 +30,9 @@ curl -L http://install.ohmyz.sh | sh
 # Set the default shell to zsh
 chsh -s /usr/bin/zsh
 
-echo "Por favor, cierre la sesión e ingrese de nuevo, verifique que la terminal ha cambiado"
-echo "Instalar Fasd manualmente, por favor"
-
-
+echo 'Installing fasd'
+# Installing fasd
+mkdir ~/fasd-clone
+cd ~/fasd-clone
+make install
+echo 'eval "$(fasd --init auto)"' >> ~/.zshrc
