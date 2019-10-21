@@ -32,7 +32,8 @@ chsh -s /usr/bin/zsh
 
 echo 'Installing fasd'
 # Installing fasd
-mkdir ~/fasd-clone
-cd ~/fasd-clone
-make install
+cd ~
+git clone https://github.com/clvv/fasd.git
+cd fasd
+sudo make install
 echo 'eval "$(fasd --init auto)"' >> ~/.zshrc
