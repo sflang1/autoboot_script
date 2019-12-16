@@ -23,6 +23,9 @@ echo 'eval "$(rbenv init -)"' >> ~/.zshrc
 # Rbenv build
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 
+# Install tkinter
+sudo apt-get install python3-tk tk-dev
+
 # Install pyenv
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 echo "# Python configuration" >> ~/.zshrc
@@ -55,6 +58,8 @@ echo "#Phantomenv configuration" >> ~/.zshrc
 echo 'export PATH="$HOME/.phantomenv/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(phantomenv init -)"' >> ~/.zshrc
 
+# Install postgres
+sudo apt install postgresql postgresql-contrib
 
 
 # Octave
