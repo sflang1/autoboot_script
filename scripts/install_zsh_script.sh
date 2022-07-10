@@ -55,8 +55,8 @@ if [ "$install_git" = "" ] || [ "$install_git" = "yes" ] || [ "$install_git" = "
             git config --global user.email "$email"
             echo "${GREEN}Global configurations set successfully!${NC}"
             
-            echo "Creating and ssh key"
-            ssh-keygen -t rsa -b 4096 -C "$email"
+            echo "Creating SSH key"
+            ssh-keygen -t ed25519 -C "$email"
             echo "${YELLOW}You can later add your new SSH key to the agent${NC}"
         fi
     else

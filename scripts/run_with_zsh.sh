@@ -24,6 +24,9 @@ echo "${GREEN}Zsh plugins installed successfully!${NC}"
 vared -p 'Would you like to install rbenv (Simple Ruby version manager)? [yes/no] ' -c install_rbenv
 
 if [[ "$install_rbenv" = ""  || "$install_rbenv" = "yes" || "$install_rbenv" = "y" ]]; then
+    # Installing packages required for Ruby installation
+    echo "Installing required packages for Ruby"
+    sudo apt install -y zlib1g-dev libpq-dev
     # Install rbenv
     git clone https://github.com/rbenv/rbenv.git ~/.rbenv
     cd ~/.rbenv && src/configure && make -C src
@@ -51,7 +54,7 @@ if [[ "$install_nodenv" = ""  || "$install_nodenv" = "yes" || "$install_nodenv" 
     # Install nodenv
     git clone https://github.com/nodenv/nodenv.git ~/.nodenv
     cd ~/.nodenv && src/configure && make -C src
-    echo "# Rbenv configuration" >> ~/.zshrc
+    echo "# Nodenv configuration" >> ~/.zshrc
     echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.zshrc
     echo 'eval "$(nodenv init -)"' >> ~/.zshrc
     # Add nodenv binaries
@@ -67,22 +70,25 @@ vared -p 'Would you like to install postgresql? [yes/no] ' -c install_postgres
 
 if [[ "$install_postgres" = ""  || "$install_postgres" = "yes" || "$install_postgres" = "y" ]]; then
     # Install postgres
-    sudo apt -y install postgresql postgresql-contrib
+    sudo apt -y install postgresql postgresql-contrib pgcli
 fi
 
 vared -p 'Would you like to install docker and docker compose? [yes/no] ' -c install_docker
 
 if [[ "$install_docker" = ""  || "$install_docker" = "yes" || "$install_docker" = "y" ]]; then
-    sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt install -y ca-certificates curl gnupg lsb-release
+    
+    # Add docker official GPG key
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    
+    # set up repository 
+    echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   
     sudo apt update
-    sudo apt install -y docker-ce docker-ce-cli containerd.io
-
-    # Installing docker compose
-    sudo apt -y py-pip python-dev libffi-dev openssl-dev gcc libc-dev make.
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
+    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 fi
 
 echo "${GREEN}All packages were installed successfully! Please, close your session and reopen it for the terminal changes to take place${NC}"
